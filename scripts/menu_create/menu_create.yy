@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"menu_create",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"menu_create",
+  "parent":{
+    "name":"Tiny_menu",
+    "path":"folders/Tiny_menu.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}
