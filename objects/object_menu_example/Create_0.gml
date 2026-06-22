@@ -18,11 +18,9 @@ menu.options.set_button_function("APPLY", function() {
 	var _res_split = string_split(_res, "x");
 	var _res_w = real(_res_split[0]);
 	var _res_h = real(_res_split[1]);
-	var _cam = view_get_camera(0);
-	view_set_wport(_cam, _res_w);
-	view_set_hport(_cam, _res_h);
+	camera_set_view_size(view_get_camera(0), _res_w, _res_h);
 	window_set_size(_res_w, _res_h);
-	//window_center();
+	window_center();
 
 	show_debug_message(menu.options_get())
 })

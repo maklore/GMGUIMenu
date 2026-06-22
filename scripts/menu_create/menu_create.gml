@@ -174,6 +174,7 @@ function menu_create() constructor {
 		static _y2 = _y;
 		static _option_x1 = 0;
 		static _option_x2 = 0;
+		static _colour = __MENU_COLOUR;
 		
 		draw_set_font(__menu_data.font);
 		draw_set_halign(__menu_data.halign);
@@ -188,8 +189,6 @@ function menu_create() constructor {
 			_xx = _x + _menu.x;
 			_yy = _y + _menu.y;
 			
-		    draw_text(_xx, _yy, _menus);
-			
 			if _menu.option != undefined {
 				
 				var _option_data = _menu.option_data;
@@ -201,8 +200,6 @@ function menu_create() constructor {
 				
 				var _option_x = _x + _option_data.x;
 				
-				draw_text(_option_x, _yy, _option_value);
-				
 				var _ox1 = _x + _option_data.x1;
 				var _oy1 = _y + _option_data.y1;
 				var _ox2 = _x + _option_data.x2;
@@ -210,8 +207,15 @@ function menu_create() constructor {
 			
 				if point_in_rectangle(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), _ox1, _oy1, _ox2, _oy2) {
 					__menu_data.hover_option = i;
-					draw_rectangle(_ox1, _oy1, _ox2, _oy2, true);
+					
+					_colour = __MENU_COLOUR_HOVER;
+					
+				} else if _colour != __MENU_COLOUR {
+					
+					_colour = __MENU_COLOUR;
 				}
+				
+				draw_text_colour(_option_x, _yy, _option_value, _colour, _colour, _colour, _colour, 1);
 				
 			}
 			
@@ -222,8 +226,15 @@ function menu_create() constructor {
 			
 			if point_in_rectangle(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), _x1, _y1, _x2, _y2) and _menu.option_data == undefined {
 				__menu_data.hover = i;
-				draw_rectangle(_x1, _y1, _x2, _y2, true);
+				
+				_colour = __MENU_COLOUR_HOVER;
+				
+			} else if _colour != __MENU_COLOUR {
+				
+				_colour = __MENU_COLOUR;
 			}
+			
+			draw_text_colour(_xx, _yy, _menus, _colour, _colour, _colour, _colour, 1);
 		}
 		
 	}

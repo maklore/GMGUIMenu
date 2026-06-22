@@ -12,7 +12,9 @@
   "Folders":[
     {"$GMFolder":"","%Name":"Tiny_menu","folderPath":"folders/Tiny_menu.yy","name":"Tiny_menu","resourceType":"GMFolder","resourceVersion":"2.0",},
   ],
-  "ForcedPrefabProjectReferences":[],
+  "ForcedPrefabProjectReferences":[
+    {"link":"io.gamemaker.sdfshaders-1.0.0","name":"io.gamemaker.sdfshaders-1.0.0","path":"io.gamemaker.sdfshaders-1.0.0.yyp",},
+  ],
   "IncludedFiles":[],
   "isEcma":false,
   "LibraryEmitters":[],
@@ -29,6 +31,7 @@
     {"id":{"name":"menu_create","path":"scripts/menu_create/menu_create.yy",},},
     {"id":{"name":"menu_system","path":"scripts/menu_system/menu_system.yy",},},
     {"id":{"name":"sprite_background","path":"sprites/sprite_background/sprite_background.yy",},},
+    {"id":{"name":"sprite_menu_test","path":"sprites/sprite_menu_test/sprite_menu_test.yy",},},
   ],
   "resourceType":"GMProject",
   "resourceVersion":"2.0",
