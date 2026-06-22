@@ -6,6 +6,17 @@ function menu_create() constructor {
 
 	if argument_count < 1 {	exit; }
 	
+	__parent = function() {
+		var _names = struct_get_names(other);
+		var _count = array_length(_names);
+		for (var i = 0; i < _count; ++i) {
+			var _name = _names[i];
+		    if is_struct(other[$ _name]) and struct_exists(other[$ _name], "__options_data") {
+				return _name;	
+			}
+		}
+	}
+	__parent = __parent();
 	__menu_array = [];
 	__menu_data = {
 		x : 0,
@@ -22,10 +33,10 @@ function menu_create() constructor {
 	
 	__option_bool = ["Disabled", "Enabled"];
 	__option_resolutions = []
-	__option_struct = {};
-	__option_struct_index = {};
-	__option_struct_temp = {};
-	__option_struct_temp_index = {};
+	//__option__struct = {};
+	//__option__struct_index = {};
+	//__option__struct_temp = {};
+	//__option__struct_temp_index = {};
 	__option_key_listen = false;
 	
 	for (var i = 0; i < argument_count; ++i) {
@@ -202,7 +213,7 @@ function menu_create() constructor {
 			if _menu.option != undefined {
 				
 				var _option_data = _menu.option_data;
-				var _option_value = __option_struct_temp[$ _menus]// _option_data.value;
+				var _option_value = other[$ __parent].__options_data.__option_struct_temp[$ _menus]// _option_data.value;
 				
 				if _menu.option == "bool" {
 					_option_value = __option_bool[_option_value];	
@@ -302,7 +313,7 @@ function menu_create() constructor {
 			var _key = __menu_data.keybind_option;
 
 			if _key != "" {
-				__option_struct_temp[$ _key] = string_upper(__keybinds()[keyboard_lastkey]);
+				other.__options_data.__option_struct_temp[$ _key] = string_upper(__keybinds()[keyboard_lastkey]);
 			}
 			__option_key_listen = false;
 			__menu_data.keybind_option = "";
@@ -355,10 +366,12 @@ function menu_create() constructor {
 
 		};
 		
+		var __options = other[$ __parent].__options_data;
+		
 		if _type == "bool" {
 			
-			__option_struct[$ _button] = _value;
-			__option_struct_temp[$ _button] = _value;
+			__options.__option_struct[$ _button] = _value;
+			__options.__option_struct_temp[$ _button] = _value;
 			
 			__menu_data[$ _button].option_data.value = _value;
 			
@@ -366,17 +379,18 @@ function menu_create() constructor {
 				
 				__menu_data[$ _button].option_data.value = !__menu_data[$ _button].option_data.value;
 				
-				__option_struct_temp[$ _button] = __menu_data[$ _button].option_data.value;
+				other[$ __parent].__options_data.__option_struct_temp[$ _button] = __menu_data[$ _button].option_data.value;
+				
 			}
 		
 		}
 		
 		if _type == "array" {
 					
-			__option_struct[$ _button] = _value[_index];
-			__option_struct_index[$ _button] = _index;
-			__option_struct_temp[$ _button] = _value[_index];
-			__option_struct_temp_index[$ _button] = _index;
+			__options.__option_struct[$ _button] = _value[_index];
+			__options.__option_struct_index[$ _button] = _index;
+			__options.__option_struct_temp[$ _button] = _value[_index];
+			__options.__option_struct_temp_index[$ _button] = _index;
 			
 			__menu_data[$ _button].option_data.value = _value[_index];
 			
@@ -384,19 +398,19 @@ function menu_create() constructor {
 				
 				static _array_length = array_length(__menu_data[$ _button].option_data.value_array) - 1;
 				
-				__option_struct_temp_index[$ _button] = __option_struct_temp_index[$ _button] < _array_length ? __option_struct_temp_index[$ _button] + 1 : 0;
+				other[$ __parent].__options_data.__option_struct_temp_index[$ _button] = other[$ __parent].__options_data.__option_struct_temp_index[$ _button] < _array_length ? other[$ __parent].__options_data.__option_struct_temp_index[$ _button] + 1 : 0;
 
-				__menu_data[$ _button].option_data.value = __menu_data[$ _button].option_data.value_array[__option_struct_temp_index[$ _button]];
+				__menu_data[$ _button].option_data.value = __menu_data[$ _button].option_data.value_array[__options.__option_struct_temp_index[$ _button]];
 				
-				__option_struct_temp[$ _button] = __menu_data[$ _button].option_data.value;
+				other[$ __parent].__options_data.__option_struct_temp[$ _button] = __menu_data[$ _button].option_data.value;
 			}
 		
 		}
 		
 		if _type == "key" {
 			
-			__option_struct[$ _button] = _value;
-			__option_struct_temp[$ _button] = _value;
+			__options.__option_struct[$ _button] = _value;
+			__options.__option_struct_temp[$ _button] = _value;
 			
 			__menu_data[$ _button].option_data.value = _value;
 			

@@ -10,6 +10,12 @@ function menu_system(_menu_name) constructor {
 	static __main_menu = string_lower(_menu_name);
 	static __current_menu = string_lower(_menu_name);
 	static __current_menu_stack = [];
+	static __options_data = {
+		__option_struct : {},
+		__option_struct_index : {},
+		__option_struct_temp : {},
+		__option_struct_temp_index : {}	
+	}
 	
 	/**
 	 * Set up font and alignment.
@@ -79,7 +85,7 @@ function menu_system(_menu_name) constructor {
 	 * @returns {struct}
 	 */
 	static options_get = function() {
-		return self[$ __current_menu].__option_struct;		
+		return __options_data.__option_struct;		
 	}
 	
 	/**
@@ -87,8 +93,8 @@ function menu_system(_menu_name) constructor {
 	 */
 	static options_set = function() {
 		
-		self[$ __current_menu].__option_struct = variable_clone(self[$ __current_menu].__option_struct_temp);
-		self[$ __current_menu].__option_struct_index = variable_clone(self[$ __current_menu].__option_struct_temp_index)
+		__options_data.__option_struct = variable_clone(__options_data.__option_struct_temp);
+		__options_data.__option_struct_index = variable_clone(__options_data.__option_struct_temp_index)
 		
 	}
 	
@@ -97,9 +103,9 @@ function menu_system(_menu_name) constructor {
 	 */
 	static options_cancel = function() {
 		
-		self[$ __current_menu].__option_struct_temp = variable_clone(self[$ __current_menu].__option_struct);
-		self[$ __current_menu].__option_struct_temp_index = variable_clone(self[$ __current_menu].__option_struct_index);
-		self[$ __current_menu].__option_key_listen = false;
+		__options_data.__option_struct_temp = variable_clone(__options_data.__option_struct);
+		__options_data.__option_struct_temp_index = variable_clone(__options_data.__option_struct_index);
+		__options_data.__option_key_listen = false;
 	}
 	
 }
