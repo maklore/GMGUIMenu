@@ -7,7 +7,9 @@
  */
 function menu_system(_menu_name) constructor {
 	
+	static __main_menu = string_lower(_menu_name);
 	static __current_menu = string_lower(_menu_name);
+	static __current_menu_stack = [];
 	
 	/**
 	 * Set up font and alignment.
@@ -17,7 +19,8 @@ function menu_system(_menu_name) constructor {
 	 */
 	static initialise = function(_font, _halign, _valign) {
 		
-		var _remove = ["initialise", "on_click", "draw", "__current_menu", "options_get", "options_set"];
+		var _remove = ["initialise", "on_click", "draw", "__main_menu", "__current_menu", "__current_menu_stack", 
+					   "options_get", "options_set", "options_cancel"];
 		
 		var _struct_names = struct_get_names(self);
 		
@@ -29,7 +32,7 @@ function menu_system(_menu_name) constructor {
 				array_delete(_struct_names, _get_index, 1);
 			}
 		}
-		
+				
 		var _struct_count = array_length(_struct_names);
 
 		if _struct_count < 1 { exit; }
@@ -56,9 +59,18 @@ function menu_system(_menu_name) constructor {
 	 */
 	static on_click = function(_button) {
 		var _result = self[$ __current_menu].on_click(_button);
-		if _result != undefined and struct_exists(self, _result) {
+
+		if string_upper(_result) == __MENU_RETURN {
 			
-			__current_menu = _result;	
+			array_shift(__current_menu_stack);
+			__current_menu = array_length(__current_menu_stack) > 0 ? __current_menu_stack[0] : __main_menu;
+			exit;
+		}
+
+		if _result != undefined and struct_exists(self, _result) {
+
+			array_insert(__current_menu_stack, 0, _result)
+			__current_menu = __current_menu_stack[0];
 		}
 	}
 	
@@ -67,15 +79,27 @@ function menu_system(_menu_name) constructor {
 	 * @returns {struct}
 	 */
 	static options_get = function() {
-		return self[$ __current_menu].__option_struct;
+		return self[$ __current_menu].__option_struct;		
 	}
 	
 	/**
-	 * Sets the current options from a struct. Must be applied after.
-	 * @param {struct} _struct Options struct.
+	 * Sets the current options.
 	 */
-	static options_set = function(_struct) {
-		self[$ __current_menu].__option_struct = _struct;
+	static options_set = function() {
+		
+		self[$ __current_menu].__option_struct = variable_clone(self[$ __current_menu].__option_struct_temp);
+		self[$ __current_menu].__option_struct_index = variable_clone(self[$ __current_menu].__option_struct_temp_index)
+		
+	}
+	
+	/**
+	 * Sets the temporary set options back to current.
+	 */
+	static options_cancel = function() {
+		
+		self[$ __current_menu].__option_struct_temp = variable_clone(self[$ __current_menu].__option_struct);
+		self[$ __current_menu].__option_struct_temp_index = variable_clone(self[$ __current_menu].__option_struct_index);
+		self[$ __current_menu].__option_key_listen = false;
 	}
 	
 }

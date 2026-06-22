@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"menu_keybinds",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"menu_keybinds",
+  "parent":{
+    "name":"Tiny_menu",
+    "path":"folders/Tiny_menu.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

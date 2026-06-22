@@ -13,8 +13,8 @@
   ],
   "name":"room_example_2",
   "parent":{
-    "name":"Menu",
-    "path":"Menu.yyp",
+    "name":"Examples",
+    "path":"folders/Examples.yy",
   },
   "parentRoom":null,
   "physicsSettings":{

@@ -10,8 +10,8 @@
   "name":"object_menu_example",
   "overriddenProperties":[],
   "parent":{
-    "name":"Menu",
-    "path":"Menu.yyp",
+    "name":"Examples",
+    "path":"folders/Examples.yy",
   },
   "parentObjectId":null,
   "persistent":false,

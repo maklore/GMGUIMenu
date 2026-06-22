@@ -16,12 +16,17 @@ function menu_create() constructor {
 		halign : undefined,
 		valign : undefined,
 		hover : -1,
-		hover_option : -1
+		hover_option : -1,
+		keybind_option : ""
 	};
 	
 	__option_bool = ["Disabled", "Enabled"];
 	__option_resolutions = []
 	__option_struct = {};
+	__option_struct_index = {};
+	__option_struct_temp = {};
+	__option_struct_temp_index = {};
+	__option_key_listen = false;
 	
 	for (var i = 0; i < argument_count; ++i) {
 	    var _arg = argument[i];
@@ -162,6 +167,7 @@ function menu_create() constructor {
 		}		
 	
 	}
+	
 	/// @ignore	
 	static draw = function(_x, _y) {
 		
@@ -175,6 +181,10 @@ function menu_create() constructor {
 		static _option_x1 = 0;
 		static _option_x2 = 0;
 		static _colour = __MENU_COLOUR;
+		
+		if __option_key_listen {
+			on_keypress();	
+		}
 		
 		draw_set_font(__menu_data.font);
 		draw_set_halign(__menu_data.halign);
@@ -192,7 +202,7 @@ function menu_create() constructor {
 			if _menu.option != undefined {
 				
 				var _option_data = _menu.option_data;
-				var _option_value = _option_data.value;
+				var _option_value = __option_struct_temp[$ _menus]// _option_data.value;
 				
 				if _menu.option == "bool" {
 					_option_value = __option_bool[_option_value];	
@@ -239,7 +249,7 @@ function menu_create() constructor {
 		
 	}
 	
-	///@ignore
+	/// @ignore
 	static on_click = function(_button) {
 		
 		var _hover = __menu_data.hover;
@@ -256,7 +266,7 @@ function menu_create() constructor {
 			if _menus != -1 and is_callable(__menu_data[$ _menus].func) {
 				
 				__menu_data[$ _menus].func();
-				exit;
+				//exit;
 			}
 			
 			if _menus_option != -1 and is_callable(__menu_data[$ _menus_option].option_data.func1) {
@@ -279,6 +289,27 @@ function menu_create() constructor {
 		exit;
 	}
 	
+	/// @ignore
+	static on_keypress = function() {
+		
+		if keyboard_lastkey == vk_escape or !window_has_focus() {
+			__option_key_listen = false;
+			exit;
+		}
+		
+		if keyboard_lastkey != -1 {
+			
+			var _key = __menu_data.keybind_option;
+
+			if _key != "" {
+				__option_struct_temp[$ _key] = string_upper(__keybinds()[keyboard_lastkey]);
+			}
+			__option_key_listen = false;
+			__menu_data.keybind_option = "";
+			exit;
+		}
+	}
+	
 	/**
 	 * Set function for button.
 	 * @param {string} _button Button name.
@@ -299,8 +330,9 @@ function menu_create() constructor {
 	 * @param {string} _type Set "bool", "slider", "array", or "key".
 	 * @param {bool | array | real} _value Set value. Use an array for "slider" values: [low_value, high_value], and Unicode code for "key".
 	 * @param {function} _func Optional. Set function to call.
+	 * @param {real} _index Optional. Set array value index.
 	 */
-	static set_button_option = function(_button, _type, _value, _func = undefined) {
+	static set_button_option = function(_button, _type, _value, _func = undefined, _index = undefined) {
 		
 		__menu_data[$ _button].option = _type;
 		
@@ -314,6 +346,7 @@ function menu_create() constructor {
 			width : 0,
 			height : 0,
 			hover : -1,
+			index : _index,
 			value : is_array(_value) ? undefined : _value,
 			value_array : is_array(_value) ? _value : undefined,
 			value_array_index : 0,
@@ -325,39 +358,59 @@ function menu_create() constructor {
 		if _type == "bool" {
 			
 			__option_struct[$ _button] = _value;
+			__option_struct_temp[$ _button] = _value;
+			
+			__menu_data[$ _button].option_data.value = _value;
 			
 			__menu_data[$ _button].option_data.func1 = function(_button) {
 				
 				__menu_data[$ _button].option_data.value = !__menu_data[$ _button].option_data.value;
 				
-				__option_struct[$ _button] = __menu_data[$ _button].option_data.value;
+				__option_struct_temp[$ _button] = __menu_data[$ _button].option_data.value;
 			}
 		
 		}
 		
 		if _type == "array" {
+					
+			__option_struct[$ _button] = _value[_index];
+			__option_struct_index[$ _button] = _index;
+			__option_struct_temp[$ _button] = _value[_index];
+			__option_struct_temp_index[$ _button] = _index;
 			
-			var _get_resolution = $"{window_get_width()}x{window_get_height()}";
-			var _get_index = array_get_index(_value, _get_resolution);
-			
-			__option_struct[$ _button] = _value[_get_index];
-			
-			__menu_data[$ _button].option_data.value = _value[_get_index];
+			__menu_data[$ _button].option_data.value = _value[_index];
 			
 			__menu_data[$ _button].option_data.func1 = function(_button) {
 				
 				static _array_length = array_length(__menu_data[$ _button].option_data.value_array) - 1;
 				
-				static _index = array_get_index(__menu_data[$ _button].option_data.value_array, __menu_data[$ _button].option_data.value);
-				
-				_index = _index < _array_length ? _index + 1 : 0;
+				__option_struct_temp_index[$ _button] = __option_struct_temp_index[$ _button] < _array_length ? __option_struct_temp_index[$ _button] + 1 : 0;
 
-				__menu_data[$ _button].option_data.value = __menu_data[$ _button].option_data.value_array[_index];
+				__menu_data[$ _button].option_data.value = __menu_data[$ _button].option_data.value_array[__option_struct_temp_index[$ _button]];
 				
-				__option_struct[$ _button] = __menu_data[$ _button].option_data.value;
+				__option_struct_temp[$ _button] = __menu_data[$ _button].option_data.value;
 			}
 		
 		}
-
+		
+		if _type == "key" {
+			
+			__option_struct[$ _button] = _value;
+			__option_struct_temp[$ _button] = _value;
+			
+			__menu_data[$ _button].option_data.value = _value;
+			
+			__menu_data[$ _button].option_data.func1 = function(_button) {
+				
+				keyboard_lastkey = -1;
+				
+				__option_key_listen = true;
+				__menu_data.keybind_option = _button;
+			}
+		
+			
+		}
+		
 	}
+
 }

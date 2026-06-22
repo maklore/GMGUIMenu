@@ -10,6 +10,7 @@
   },
   "defaultScriptType":1,
   "Folders":[
+    {"$GMFolder":"","%Name":"Examples","folderPath":"folders/Examples.yy","name":"Examples","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Tiny_menu","folderPath":"folders/Tiny_menu.yy","name":"Tiny_menu","resourceType":"GMFolder","resourceVersion":"2.0",},
   ],
   "ForcedPrefabProjectReferences":[
@@ -29,6 +30,7 @@
     {"id":{"name":"room_example","path":"rooms/room_example/room_example.yy",},},
     {"id":{"name":"menu_config","path":"scripts/menu_config/menu_config.yy",},},
     {"id":{"name":"menu_create","path":"scripts/menu_create/menu_create.yy",},},
+    {"id":{"name":"menu_keybinds","path":"scripts/menu_keybinds/menu_keybinds.yy",},},
     {"id":{"name":"menu_system","path":"scripts/menu_system/menu_system.yy",},},
     {"id":{"name":"sprite_background","path":"sprites/sprite_background/sprite_background.yy",},},
     {"id":{"name":"sprite_menu_test","path":"sprites/sprite_menu_test/sprite_menu_test.yy",},},
