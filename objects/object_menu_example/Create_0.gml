@@ -38,8 +38,9 @@ menu.options = new menu_create("GRAPHICS", "SOUND", "KEYBIND", TINY_MENU_RETURN)
 			menu.options_cancel();	
 		});
 
-	menu.sound = new menu_create("GAME VOLUME", "APPLY", TINY_MENU_RETURN);
-		menu.sound.set_button_option("GAME VOLUME", "slider", [100, 0, 100]);
+	menu.sound = new menu_create("GAME", "MUSIC", "APPLY", TINY_MENU_RETURN);
+		menu.sound.set_button_option("GAME", "slider", [100, 0, 100]);
+		menu.sound.set_button_option("MUSIC", "slider", [100, 0, 100]);
 		menu.sound.set_button_function("APPLY", function() {
 			menu.options_set();
 		});
