@@ -1,9 +1,9 @@
 {
   "$GMScript":"v1",
-  "%Name":"menu_keybinds",
+  "%Name":"__menu_keybinds_db",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"menu_keybinds",
+  "name":"__menu_keybinds_db",
   "parent":{
     "name":"Tiny_menu",
     "path":"folders/Tiny_menu.yy",

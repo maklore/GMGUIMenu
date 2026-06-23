@@ -1,5 +1,7 @@
 function __keybinds() {
-static key_arr = [];
+	
+	static key_arr = [];
+	
 	key_arr[8] = "Backspace"
 	key_arr[9] = "Tab"
 	key_arr[12] = "Num 5"

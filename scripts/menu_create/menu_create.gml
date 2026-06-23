@@ -11,7 +11,7 @@ function menu_create() constructor {
 		var _count = array_length(_names);
 		for (var i = 0; i < _count; ++i) {
 			var _name = _names[i];
-		    if is_struct(other[$ _name]) and struct_exists(other[$ _name], "__options_data") {
+		    if is_instanceof(other[$ _name], menu_system) {
 				return _name;	
 			}
 		}
@@ -33,10 +33,6 @@ function menu_create() constructor {
 	
 	__option_bool = ["Disabled", "Enabled"];
 	__option_resolutions = []
-	//__option__struct = {};
-	//__option__struct_index = {};
-	//__option__struct_temp = {};
-	//__option__struct_temp_index = {};
 	__option_key_listen = false;
 	
 	for (var i = 0; i < argument_count; ++i) {
@@ -191,7 +187,7 @@ function menu_create() constructor {
 		static _y2 = _y;
 		static _option_x1 = 0;
 		static _option_x2 = 0;
-		static _colour = __MENU_COLOUR;
+		static _colour = TINY_MENU_COLOUR;
 		
 		if __option_key_listen {
 			on_keypress();	
@@ -229,11 +225,11 @@ function menu_create() constructor {
 				if point_in_rectangle(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), _ox1, _oy1, _ox2, _oy2) {
 					__menu_data.hover_option = i;
 					
-					_colour = __MENU_COLOUR_HOVER;
+					_colour = TINY_MENU_COLOUR_HOVER;
 					
-				} else if _colour != __MENU_COLOUR {
+				} else if _colour != TINY_MENU_COLOUR {
 					
-					_colour = __MENU_COLOUR;
+					_colour = TINY_MENU_COLOUR;
 				}
 				
 				draw_text_colour(_option_x, _yy, _option_value, _colour, _colour, _colour, _colour, 1);
@@ -248,11 +244,11 @@ function menu_create() constructor {
 			if point_in_rectangle(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), _x1, _y1, _x2, _y2) and _menu.option_data == undefined {
 				__menu_data.hover = i;
 				
-				_colour = __MENU_COLOUR_HOVER;
+				_colour = TINY_MENU_COLOUR_HOVER;
 				
-			} else if _colour != __MENU_COLOUR {
+			} else if _colour != TINY_MENU_COLOUR {
 				
-				_colour = __MENU_COLOUR;
+				_colour = TINY_MENU_COLOUR;
 			}
 			
 			draw_text_colour(_xx, _yy, _menus, _colour, _colour, _colour, _colour, 1);
@@ -400,7 +396,7 @@ function menu_create() constructor {
 				
 				other[$ __parent].__options_data.__option_struct_temp_index[$ _button] = other[$ __parent].__options_data.__option_struct_temp_index[$ _button] < _array_length ? other[$ __parent].__options_data.__option_struct_temp_index[$ _button] + 1 : 0;
 
-				__menu_data[$ _button].option_data.value = __menu_data[$ _button].option_data.value_array[__options.__option_struct_temp_index[$ _button]];
+				__menu_data[$ _button].option_data.value = __menu_data[$ _button].option_data.value_array[other[$ __parent].__options_data.__option_struct_temp_index[$ _button]];
 				
 				other[$ __parent].__options_data.__option_struct_temp[$ _button] = __menu_data[$ _button].option_data.value;
 			}
