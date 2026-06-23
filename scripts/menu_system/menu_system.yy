@@ -5,8 +5,8 @@
   "isDnD":false,
   "name":"menu_system",
   "parent":{
-    "name":"Tiny_menu",
-    "path":"folders/Tiny_menu.yy",
+    "name":"GMGUIMenu",
+    "path":"folders/GMGUIMenu.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

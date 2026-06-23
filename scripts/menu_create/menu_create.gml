@@ -190,7 +190,7 @@ function menu_create() constructor {
 		static _y2 = _y;
 		static _option_x1 = 0;
 		static _option_x2 = 0;
-		static _colour = TINY_MENU_COLOUR;
+		static _colour = GMGUI_MENU_COLOUR;
 		
 		if __option_slider_active {
 			__option_slider_x = _xx;	
@@ -228,18 +228,18 @@ function menu_create() constructor {
 				if point_in_rectangle(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), _ox1, _oy1, _ox2, _oy2) {
 					__menu_data.hover_option = i;
 					
-					_colour = TINY_MENU_COLOUR_HOVER;
+					_colour = GMGUI_MENU_COLOUR_HOVER;
 					
-				} else if _colour != TINY_MENU_COLOUR {
+				} else if _colour != GMGUI_MENU_COLOUR {
 					
-					_colour = TINY_MENU_COLOUR;
+					_colour = GMGUI_MENU_COLOUR;
 				}
 				
 				if _menu.option == "slider" {
 					var _value_percent = _option_value / 100;
-					draw_rectangle_colour(_ox1, _oy1, _ox2, _oy2, TINY_MENU_SLIDER_BACKGROUND_COLOUR, TINY_MENU_SLIDER_BACKGROUND_COLOUR, TINY_MENU_SLIDER_BACKGROUND_COLOUR, TINY_MENU_SLIDER_BACKGROUND_COLOUR, false);
-					draw_rectangle_colour(_ox1, _oy1, _ox2, _oy2, TINY_MENU_SLIDER_FRAME_COLOUR, TINY_MENU_SLIDER_FRAME_COLOUR, TINY_MENU_SLIDER_FRAME_COLOUR, TINY_MENU_SLIDER_FRAME_COLOUR, true);
-					draw_rectangle_colour(_ox1, _oy1, _ox1 + (_ox2 - _ox1) * _value_percent - 1, _oy2, TINY_MENU_SLIDER_COLOUR, TINY_MENU_SLIDER_COLOUR, TINY_MENU_SLIDER_COLOUR, TINY_MENU_SLIDER_COLOUR, false);
+					draw_rectangle_colour(_ox1, _oy1, _ox2, _oy2, GMGUI_MENU_SLIDER_BACKGROUND_COLOUR, GMGUI_MENU_SLIDER_BACKGROUND_COLOUR, GMGUI_MENU_SLIDER_BACKGROUND_COLOUR, GMGUI_MENU_SLIDER_BACKGROUND_COLOUR, false);
+					draw_rectangle_colour(_ox1, _oy1, _ox2, _oy2, GMGUI_MENU_SLIDER_FRAME_COLOUR, GMGUI_MENU_SLIDER_FRAME_COLOUR, GMGUI_MENU_SLIDER_FRAME_COLOUR, GMGUI_MENU_SLIDER_FRAME_COLOUR, true);
+					draw_rectangle_colour(_ox1, _oy1, _ox1 + (_ox2 - _ox1) * _value_percent - 1, _oy2, GMGUI_MENU_SLIDER_COLOUR, GMGUI_MENU_SLIDER_COLOUR, GMGUI_MENU_SLIDER_COLOUR, GMGUI_MENU_SLIDER_COLOUR, false);
 				}
 				
 				draw_text_colour(_option_x, _yy, _option_value, _colour, _colour, _colour, _colour, 1);
@@ -254,11 +254,11 @@ function menu_create() constructor {
 			if point_in_rectangle(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), _x1, _y1, _x2, _y2) and _menu.option_data == undefined {
 				__menu_data.hover = i;
 				
-				_colour = TINY_MENU_COLOUR_HOVER;
+				_colour = GMGUI_MENU_COLOUR_HOVER;
 				
-			} else if _colour != TINY_MENU_COLOUR {
+			} else if _colour != GMGUI_MENU_COLOUR {
 				
-				_colour = TINY_MENU_COLOUR;
+				_colour = GMGUI_MENU_COLOUR;
 			}
 			
 			draw_text_colour(_xx, _yy, _menus, _colour, _colour, _colour, _colour, 1);

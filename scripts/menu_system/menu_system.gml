@@ -66,7 +66,7 @@ function menu_system(_menu_name) constructor {
 	static on_click = function(_button) {
 		var _result = self[$ __current_menu].on_click(_button);
 
-		if string_upper(_result) == TINY_MENU_RETURN {
+		if string_upper(_result) == GMGUI_MENU_RETURN {
 			
 			array_shift(__current_menu_stack);
 			__current_menu = array_length(__current_menu_stack) > 0 ? __current_menu_stack[0] : __main_menu;

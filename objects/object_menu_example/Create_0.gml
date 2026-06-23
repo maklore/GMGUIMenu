@@ -10,14 +10,14 @@ menu.main = new menu_create("START", "LOAD", "OPTIONS", "EXIT");
 		game_end(); 
 	});
 
-menu.load = new menu_create("SAVE", TINY_MENU_RETURN);
+menu.load = new menu_create("SAVE", GMGUI_MENU_RETURN);
 	menu.load.set_button_function("SAVE", function() {
 		show_debug_message("SAVE HAS BEEN SELECTED!")
 	});
 
-menu.options = new menu_create("GRAPHICS", "SOUND", "KEYBIND", TINY_MENU_RETURN);
+menu.options = new menu_create("GRAPHICS", "SOUND", "KEYBIND", GMGUI_MENU_RETURN);
 	
-	menu.graphics = new menu_create("FULLSCREEN", "RESOLUTION", "APPLY", TINY_MENU_RETURN); 
+	menu.graphics = new menu_create("FULLSCREEN", "RESOLUTION", "APPLY", GMGUI_MENU_RETURN); 
 		menu.graphics.set_button_option("FULLSCREEN", "bool", false);
 		menu.graphics.set_button_option("RESOLUTION", "array", ["360x180", "640x360", "960x540", "1280x720", "1920x1080", "2560x1440"], undefined, 3);
 		menu.graphics.set_button_function("APPLY", function() {
@@ -34,21 +34,21 @@ menu.options = new menu_create("GRAPHICS", "SOUND", "KEYBIND", TINY_MENU_RETURN)
 			window_center();
 	
 		});
-		menu.graphics.set_button_function(TINY_MENU_RETURN, function() {
+		menu.graphics.set_button_function(GMGUI_MENU_RETURN, function() {
 			menu.options_cancel();	
 		});
 
-	menu.sound = new menu_create("GAME", "MUSIC", "APPLY", TINY_MENU_RETURN);
+	menu.sound = new menu_create("GAME", "MUSIC", "APPLY", GMGUI_MENU_RETURN);
 		menu.sound.set_button_option("GAME", "slider", [100, 0, 100]);
 		menu.sound.set_button_option("MUSIC", "slider", [100, 0, 100]);
 		menu.sound.set_button_function("APPLY", function() {
 			menu.options_set();
 		});
-		menu.sound.set_button_function(TINY_MENU_RETURN, function() {
+		menu.sound.set_button_function(GMGUI_MENU_RETURN, function() {
 			menu.options_cancel();	
 		});
 
-	menu.keybind = new menu_create("UP", "DOWN", "LEFT", "RIGHT", "INTERACT", "APPLY", TINY_MENU_RETURN);
+	menu.keybind = new menu_create("UP", "DOWN", "LEFT", "RIGHT", "INTERACT", "APPLY", GMGUI_MENU_RETURN);
 		menu.keybind.set_button_option("UP", "key", "Space");
 		menu.keybind.set_button_option("DOWN", "key", "S");
 		menu.keybind.set_button_option("LEFT", "key", "A");
@@ -62,7 +62,7 @@ menu.options = new menu_create("GRAPHICS", "SOUND", "KEYBIND", TINY_MENU_RETURN)
 			
 			
 		});
-		menu.keybind.set_button_function(TINY_MENU_RETURN, function() {
+		menu.keybind.set_button_function(GMGUI_MENU_RETURN, function() {
 			menu.options_cancel();	
 		});
 
