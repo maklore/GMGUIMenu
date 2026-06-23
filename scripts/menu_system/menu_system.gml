@@ -18,14 +18,14 @@ function menu_system(_menu_name) constructor {
 	}
 	
 	/**
-	 * Set up font and alignment.
+	 * Set font and build button alignments.
 	 * @param {asset.font} _font Font.
 	 * @param {constant.align} _halign Horizontal alignment.
 	 * @param {constant.align} _valign Vertical alignment.
 	 */
-	static initialise = function(_font, _halign, _valign) {
+	static build = function(_font, _halign, _valign) {
 		
-		var _remove = ["initialise", "on_click", "draw", "__main_menu", "__current_menu", "__current_menu_stack", 
+		var _remove = ["build", "on_click", "draw", "__main_menu", "__current_menu", "__current_menu_stack", 
 					   "options_get", "options_set", "options_cancel"];
 		
 		var _struct_names = struct_get_names(self);

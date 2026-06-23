@@ -28,12 +28,15 @@ function menu_create() constructor {
 		valign : undefined,
 		hover : -1,
 		hover_option : -1,
-		keybind_option : ""
+		keybind_option : "",
+		slider_option : ""
 	};
 	
 	__option_bool = ["Disabled", "Enabled"];
 	__option_resolutions = []
 	__option_key_listen = false;
+	__option_slider_active = false;
+	__option_slider_x = 0;
 	
 	for (var i = 0; i < argument_count; ++i) {
 	    var _arg = argument[i];
@@ -189,8 +192,8 @@ function menu_create() constructor {
 		static _option_x2 = 0;
 		static _colour = TINY_MENU_COLOUR;
 		
-		if __option_key_listen {
-			on_keypress();	
+		if __option_slider_active {
+			__option_slider_x = _xx;	
 		}
 		
 		draw_set_font(__menu_data.font);
@@ -209,7 +212,7 @@ function menu_create() constructor {
 			if _menu.option != undefined {
 				
 				var _option_data = _menu.option_data;
-				var _option_value = other[$ __parent].__options_data.__option_struct_temp[$ _menus]// _option_data.value;
+				var _option_value = other[$ __parent].__options_data.__option_struct_temp[$ _menus];
 				
 				if _menu.option == "bool" {
 					_option_value = __option_bool[_option_value];	
@@ -232,6 +235,13 @@ function menu_create() constructor {
 					_colour = TINY_MENU_COLOUR;
 				}
 				
+				if _menu.option == "slider" {
+					var _value_percent = _option_value / 100;
+					draw_rectangle_colour(_ox1, _oy1, _ox2, _oy2, TINY_MENU_SLIDER_BACKGROUND_COLOUR, TINY_MENU_SLIDER_BACKGROUND_COLOUR, TINY_MENU_SLIDER_BACKGROUND_COLOUR, TINY_MENU_SLIDER_BACKGROUND_COLOUR, false);
+					draw_rectangle_colour(_ox1, _oy1, _ox2, _oy2, TINY_MENU_SLIDER_FRAME_COLOUR, TINY_MENU_SLIDER_FRAME_COLOUR, TINY_MENU_SLIDER_FRAME_COLOUR, TINY_MENU_SLIDER_FRAME_COLOUR, true);
+					draw_rectangle_colour(_ox1, _oy1, _ox1 + (_ox2 - _ox1) * _value_percent - 1, _oy2, TINY_MENU_SLIDER_COLOUR, TINY_MENU_SLIDER_COLOUR, TINY_MENU_SLIDER_COLOUR, TINY_MENU_SLIDER_COLOUR, false);
+				}
+				
 				draw_text_colour(_option_x, _yy, _option_value, _colour, _colour, _colour, _colour, 1);
 				
 			}
@@ -252,8 +262,8 @@ function menu_create() constructor {
 			}
 			
 			draw_text_colour(_xx, _yy, _menus, _colour, _colour, _colour, _colour, 1);
+			
 		}
-		
 	}
 	
 	/// @ignore
@@ -261,9 +271,18 @@ function menu_create() constructor {
 		
 		var _hover = __menu_data.hover;
 		var _hover_option = __menu_data.hover_option;
-				
-		if mouse_check_button_released(_button) {
 		
+		if __option_key_listen {
+			on_keypress();	
+		}
+		
+		if __option_slider_active {
+			slider(_button);
+		}
+		
+		
+		if mouse_check_button_pressed(_button) {
+			
 			var _menus = _hover != -1 ? __menu_array[_hover] : -1;
 			var _menus_option = _hover_option != -1 ? __menu_array[_hover_option] : -1;
 						
@@ -273,7 +292,6 @@ function menu_create() constructor {
 			if _menus != -1 and is_callable(__menu_data[$ _menus].func) {
 				
 				__menu_data[$ _menus].func();
-				//exit;
 			}
 			
 			if _menus_option != -1 and is_callable(__menu_data[$ _menus_option].option_data.func1) {
@@ -291,6 +309,8 @@ function menu_create() constructor {
 			
 		}
 		
+
+		
 		__menu_data.hover = -1;
 		__menu_data.hover_option = -1;
 		exit;
@@ -306,15 +326,38 @@ function menu_create() constructor {
 		
 		if keyboard_lastkey != -1 {
 			
+			var _options = other[$ __parent].__options_data;
+			
 			var _key = __menu_data.keybind_option;
 
 			if _key != "" {
-				other.__options_data.__option_struct_temp[$ _key] = string_upper(__keybinds()[keyboard_lastkey]);
+				_options.__option_struct_temp[$ _key] = keybinds_db()[keyboard_lastkey];
 			}
 			__option_key_listen = false;
 			__menu_data.keybind_option = "";
 			exit;
 		}
+	}
+	
+	/// @ignore
+	static slider = function(_button) {
+		
+		var _options = other[$ __parent].__options_data;
+		var _array = __menu_data[$ __menu_data.slider_option].option_data.value_array;
+		
+		var _mouse = device_mouse_x_to_gui(0);
+		var _min_x = __option_slider_x + __menu_data[$ __menu_data.slider_option].option_data.x1
+		var _max_x = __option_slider_x + __menu_data[$ __menu_data.slider_option].option_data.x2
+		var _amount = clamp((_mouse - _min_x) / (_max_x - _min_x), 0, 1);
+		_options.__option_struct_temp[$ __menu_data.slider_option] = round(lerp(_array[1], _array[2], _amount));
+		
+		if mouse_check_button_released(_button) {
+			_options.__option_struct[$ __menu_data.slider_option] = _options.__option_struct_temp[$ __menu_data.slider_option];
+			__option_slider_active = false;
+			__menu_data.slider_option = "";
+			__option_slider_x = 0;
+		}
+		
 	}
 	
 	/**
@@ -335,8 +378,8 @@ function menu_create() constructor {
 	 * Set options for button.
 	 * @param {string} _button Button name.
 	 * @param {string} _type Set "bool", "slider", "array", or "key".
-	 * @param {bool | array | real} _value Set value. Use an array for "slider" values: [low_value, high_value], and Unicode code for "key".
-	 * @param {function} _func Optional. Set function to call.
+	 * @param {bool | array | string} _value Set value. Use an array for "slider" values: [set_value, low_value, high_value], and Unicode char for "key".
+	 * @param {function} _func Optional. Set function to call. Disabled when using "counter".
 	 * @param {real} _index Optional. Set array value index.
 	 */
 	static set_button_option = function(_button, _type, _value, _func = undefined, _index = undefined) {
@@ -381,6 +424,22 @@ function menu_create() constructor {
 		
 		}
 		
+		if _type == "slider" {
+			
+			__options.__option_struct[$ _button] = _value[0];
+			__options.__option_struct_temp[$ _button] = _value[0];
+			
+			__menu_data[$ _button].option_data.value = _value[0];
+			
+			__menu_data[$ _button].option_data.func1 = function(_button) {
+				
+				__option_slider_active = true;
+				__menu_data.slider_option = _button;
+				
+			}
+			
+		}
+		
 		if _type == "array" {
 					
 			__options.__option_struct[$ _button] = _value[_index];
@@ -392,13 +451,15 @@ function menu_create() constructor {
 			
 			__menu_data[$ _button].option_data.func1 = function(_button) {
 				
+				var _options = other[$ __parent].__options_data;
+				
 				static _array_length = array_length(__menu_data[$ _button].option_data.value_array) - 1;
 				
-				other[$ __parent].__options_data.__option_struct_temp_index[$ _button] = other[$ __parent].__options_data.__option_struct_temp_index[$ _button] < _array_length ? other[$ __parent].__options_data.__option_struct_temp_index[$ _button] + 1 : 0;
+				_options.__option_struct_temp_index[$ _button] = _options.__option_struct_temp_index[$ _button] < _array_length ? _options.__option_struct_temp_index[$ _button] + 1 : 0;
 
-				__menu_data[$ _button].option_data.value = __menu_data[$ _button].option_data.value_array[other[$ __parent].__options_data.__option_struct_temp_index[$ _button]];
+				__menu_data[$ _button].option_data.value = __menu_data[$ _button].option_data.value_array[_options.__option_struct_temp_index[$ _button]];
 				
-				other[$ __parent].__options_data.__option_struct_temp[$ _button] = __menu_data[$ _button].option_data.value;
+				_options.__option_struct_temp[$ _button] = __menu_data[$ _button].option_data.value;
 			}
 		
 		}

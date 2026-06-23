@@ -1,4 +1,4 @@
-function __keybinds() {
+function keybinds_db() {
 	
 	static key_arr = [];
 	
