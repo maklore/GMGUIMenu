@@ -20,7 +20,8 @@ menu.options = new menu_create("GRAPHICS", GMGUI_MENU_RETURN);
   menu.graphics = new menu_create("FULLSCREEN", "APPLY", GMGUI_MENU_RETURN); 
 		menu.graphics.set_button_option("FULLSCREEN", "bool", false);
 		menu.graphics.set_button_function("APPLY", function() {
-			menu.options_set();
+			var _changed = menu.options_set();
+			if !_changed { exit; }
 			window_set_fullscreen(menu.options_get().FULLSCREEN);
 		});
 		menu.graphics.set_button_function(GMGUI_MENU_RETURN, function() {
