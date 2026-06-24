@@ -21,7 +21,8 @@ menu.options = new menu_create("GRAPHICS", "SOUND", "KEYBIND", GMGUI_MENU_RETURN
 		menu.graphics.set_button_option("FULLSCREEN", "bool", false);
 		menu.graphics.set_button_option("RESOLUTION", "array", ["360x180", "640x360", "960x540", "1280x720", "1920x1080", "2560x1440"], undefined, 3);
 		menu.graphics.set_button_function("APPLY", function() {
-			menu.options_set();
+			var _changed = menu.options_set();
+			if !_changed { exit; }
 	
 			window_set_fullscreen(menu.options_get().FULLSCREEN);
 	
@@ -42,7 +43,8 @@ menu.options = new menu_create("GRAPHICS", "SOUND", "KEYBIND", GMGUI_MENU_RETURN
 		menu.sound.set_button_option("GAME", "slider", [100, 0, 100]);
 		menu.sound.set_button_option("MUSIC", "slider", [100, 0, 100]);
 		menu.sound.set_button_function("APPLY", function() {
-			menu.options_set();
+			var _changed = menu.options_set();
+			if !_changed { exit; }
 		});
 		menu.sound.set_button_function(GMGUI_MENU_RETURN, function() {
 			menu.options_cancel();
@@ -55,7 +57,8 @@ menu.options = new menu_create("GRAPHICS", "SOUND", "KEYBIND", GMGUI_MENU_RETURN
 		menu.keybind.set_button_option("RIGHT", "key", "D");
 		menu.keybind.set_button_option("INTERACT", "key", "E");
 		menu.keybind.set_button_function("APPLY", function() {
-			menu.options_set();
+			var _changed = menu.options_set();
+			if !_changed { exit; }
 			
 			//Get index/ord for "UP"
 			show_debug_message(array_get_index(keybinds_db(), menu.options_get()[$ "UP"]));
