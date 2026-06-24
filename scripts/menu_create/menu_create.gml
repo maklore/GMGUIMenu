@@ -6,13 +6,14 @@ function menu_create() constructor {
 
 	if argument_count < 1 {	exit; }
 	
+	/// @ignore
 	__parent = function() {
 		var _names = struct_get_names(other);
 		var _count = array_length(_names);
 		for (var i = 0; i < _count; ++i) {
 			var _name = _names[i];
 		    if is_instanceof(other[$ _name], menu_system) {
-				return _name;	
+				return _name;
 			}
 		}
 	}
@@ -32,8 +33,9 @@ function menu_create() constructor {
 		slider_option : ""
 	};
 	
+	__options = other[$ __parent].__options_data;
 	__option_bool = ["Disabled", "Enabled"];
-	__option_resolutions = []
+	__option_resolutions = [];
 	__option_key_listen = false;
 	__option_slider_active = false;
 	__option_slider_x = 0;
@@ -192,7 +194,7 @@ function menu_create() constructor {
 		static _option_x2 = 0;
 		static _colour = GMGUI_MENU_COLOUR;
 		
-		if __option_slider_active {
+		if __option_slider_x == 0 {
 			__option_slider_x = _xx;	
 		}
 		
@@ -212,7 +214,7 @@ function menu_create() constructor {
 			if _menu.option != undefined {
 				
 				var _option_data = _menu.option_data;
-				var _option_value = other[$ __parent].__options_data.__option_struct_temp[$ _menus];
+				var _option_value = __options.__option_struct_temp[$ _menus];
 				
 				if _menu.option == "bool" {
 					_option_value = __option_bool[_option_value];	
@@ -225,7 +227,7 @@ function menu_create() constructor {
 				var _ox2 = _x + _option_data.x2;
 				var _oy2 = _y + _option_data.y2;
 			
-				if point_in_rectangle(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), _ox1, _oy1, _ox2, _oy2) {
+				if point_in_rectangle(device_mouse_x_to_gui(GMGUI_MENU_MOUSE_INDEX), device_mouse_y_to_gui(GMGUI_MENU_MOUSE_INDEX), _ox1, _oy1, _ox2, _oy2) {
 					__menu_data.hover_option = i;
 					
 					_colour = GMGUI_MENU_COLOUR_HOVER;
@@ -253,7 +255,7 @@ function menu_create() constructor {
 			_x2 = _x + _menu.x2;
 			_y2 = _y + _menu.y2;
 			
-			if point_in_rectangle(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), _x1, _y1, _x2, _y2) and _menu.option_data == undefined {
+			if point_in_rectangle(device_mouse_x_to_gui(GMGUI_MENU_MOUSE_INDEX), device_mouse_y_to_gui(GMGUI_MENU_MOUSE_INDEX), _x1, _y1, _x2, _y2) and _menu.option_data == undefined {
 				__menu_data.hover = i;
 				
 				_colour = GMGUI_MENU_COLOUR_HOVER;
@@ -281,7 +283,6 @@ function menu_create() constructor {
 		if __option_slider_active {
 			slider(_button);
 		}
-		
 		
 		if mouse_check_button_pressed(_button) {
 			
@@ -311,8 +312,6 @@ function menu_create() constructor {
 			
 		}
 		
-
-		
 		__menu_data.hover = -1;
 		__menu_data.hover_option = -1;
 		exit;
@@ -320,38 +319,46 @@ function menu_create() constructor {
 	
 	/// @ignore
 	static on_keypress = function() {
-		
+				
 		if keyboard_lastkey == vk_escape or !window_has_focus() {
 			__option_key_listen = false;
 			exit;
 		}
 		
 		if keyboard_lastkey != -1 {
-			
-			var _options = other[$ __parent].__options_data;
-			
+									
 			var _key = __menu_data.keybind_option;
 
 			if _key != "" {
-				_options.__option_struct_temp[$ _key] = keybinds_db()[keyboard_lastkey];
+				
+				var _string = keybinds_db()[keyboard_lastkey];
+				
+				for (var i = 0; i < __menu_length; ++i) {
+					
+				    if __options.__option_struct_temp[$ __menu_array[i]] == _string {
+						__option_key_listen = false;
+						__menu_data.keybind_option = "";
+						exit;
+					}
+				}
+				
+				__options.__option_struct_temp[$ _key] = _string;
 			}
 			__option_key_listen = false;
 			__menu_data.keybind_option = "";
-			exit;
 		}
 	}
 	
 	/// @ignore
 	static slider = function(_button) {
 		
-		var _options = other[$ __parent].__options_data;
 		var _array = __menu_data[$ __menu_data.slider_option].option_data.value_array;
 		
 		var _mouse = device_mouse_x_to_gui(0);
 		var _min_x = __option_slider_x + __menu_data[$ __menu_data.slider_option].option_data.x1
 		var _max_x = __option_slider_x + __menu_data[$ __menu_data.slider_option].option_data.x2
 		var _amount = clamp((_mouse - _min_x) / (_max_x - _min_x), 0, 1);
-		_options.__option_struct_temp[$ __menu_data.slider_option] = round(lerp(_array[1], _array[2], _amount));
+		__options.__option_struct_temp[$ __menu_data.slider_option] = round(lerp(_array[1], _array[2], _amount));
 		
 		if mouse_check_button_released(_button) {
 			__option_slider_active = false;
@@ -372,6 +379,7 @@ function menu_create() constructor {
 		if !struct_exists(_menu, "func") {
 			exit;
 		}
+		
 		__menu_data[$ _button].func = _func;
 	}
 
@@ -384,7 +392,7 @@ function menu_create() constructor {
 	 * @param {real} _index Optional. Set array value index.
 	 */
 	static set_button_option = function(_button, _type, _value, _func = undefined, _index = undefined) {
-		
+				
 		__menu_data[$ _button].option = _type;
 		
 		__menu_data[$ _button].option_data = {
@@ -405,8 +413,6 @@ function menu_create() constructor {
 			func2 : _func
 
 		};
-		
-		var __options = other[$ __parent].__options_data;
 		
 		if _type == "bool" {
 			
@@ -484,4 +490,5 @@ function menu_create() constructor {
 		}
 		
 	}
+
 }

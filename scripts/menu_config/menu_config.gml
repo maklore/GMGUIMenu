@@ -1,6 +1,9 @@
 //Return button string name
 #macro GMGUI_MENU_RETURN "BACK"
 
+//GUI mouse index
+#macro GMGUI_MENU_MOUSE_INDEX 0
+
 //Font colour
 #macro GMGUI_MENU_COLOUR c_black
 

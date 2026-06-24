@@ -114,7 +114,6 @@ function menu_system(_menu_name) constructor {
 		__options_data.__option_struct_temp_index = variable_clone(__options_data.__option_struct_index);
 		self[$ __current_menu].__option_key_listen = false;
 		self[$ __current_menu].__option_slider_active = false;
-		self[$ __current_menu].__option_slider_x = 0;
 	}
 	
 	/// @ignore
