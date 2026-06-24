@@ -1,5 +1,5 @@
 /**
- * Menu
+ * Menu.
  * @param {string} ... Name(s) of menu button(s).
  */
 function menu_create() constructor {
@@ -62,7 +62,7 @@ function menu_create() constructor {
 	__menu_length = array_length(__menu_array);
 	
 	/// @ignore
-	static initialise = function(_font, _halign, _valign) {
+	static arrange = function(_font, _halign, _valign) {
 		
 		__menu_data.font = _font;
 		draw_set_font(_font);
@@ -239,13 +239,14 @@ function menu_create() constructor {
 				
 				if _menu.option == "slider" {
 
-					var _value_percent = _option_value / 100;
+					var _value_percent = _option_value / _option_data.value_array[2];
 					draw_rectangle_colour(_ox1, _oy1, _ox2, _oy2, GMGUI_MENU_SLIDER_BACKGROUND_COLOUR, GMGUI_MENU_SLIDER_BACKGROUND_COLOUR, GMGUI_MENU_SLIDER_BACKGROUND_COLOUR, GMGUI_MENU_SLIDER_BACKGROUND_COLOUR, false);
 					draw_rectangle_colour(_ox1, _oy1, _ox1 + (_ox2 - _ox1) * _value_percent, _oy2, GMGUI_MENU_SLIDER_COLOUR, GMGUI_MENU_SLIDER_COLOUR, GMGUI_MENU_SLIDER_COLOUR, GMGUI_MENU_SLIDER_COLOUR, false);
 					draw_rectangle_colour(_ox1, _oy1, _ox2, _oy2, GMGUI_MENU_SLIDER_FRAME_COLOUR, GMGUI_MENU_SLIDER_FRAME_COLOUR, GMGUI_MENU_SLIDER_FRAME_COLOUR, GMGUI_MENU_SLIDER_FRAME_COLOUR, true);
 					
 				}
 				
+				//Draw OPTIONS text
 				draw_text_colour(_option_x, _yy, _option_value, _colour, _colour, _colour, _colour, 1);
 				
 			}
@@ -265,6 +266,8 @@ function menu_create() constructor {
 				_colour = GMGUI_MENU_COLOUR;
 			}
 			
+			
+			//Draw BUTTON text
 			draw_text_colour(_xx, _yy, _menus, _colour, _colour, _colour, _colour, 1);
 			
 		}

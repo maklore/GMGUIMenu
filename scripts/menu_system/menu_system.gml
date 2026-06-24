@@ -1,8 +1,8 @@
 /**
  * Menu system. 
  *
- * All menu names will be added as lowercase string. 
- * Please use lowercase characters for menu structs.
+ * All menu button names will be checked as lowercase string. 
+ * Please use lowercase characters when accessing menu structs.
  * @param {string} _starting_menu_name First menu to display.
  */
 function menu_system(_menu_name) constructor {
@@ -45,7 +45,7 @@ function menu_system(_menu_name) constructor {
 		
 		for (var i = 0; i < _struct_count; ++i) {
 		    var _name = _struct_names[i];
-			self[$ _name].initialise(_font, _halign, _valign);
+			self[$ _name].arrange(_font, _halign, _valign);
 		}
 		
 	}
