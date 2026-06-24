@@ -41,7 +41,7 @@ menu.options = new menu_create("GRAPHICS", "SOUND", "KEYBIND", GMGUI_MENU_RETURN
 		});
 
 	menu.sound = new menu_create("GAME", "MUSIC", "APPLY", GMGUI_MENU_RETURN);
-		menu.sound.set_button_option("GAME", "slider", [100, 0, 100]);
+		menu.sound.set_button_option("GAME", "slider", [80, 0, 100]);
 		menu.sound.set_button_option("MUSIC", "slider", [80, 0, 100]);
 		menu.sound.set_button_function("APPLY", function() {
 			var _changed = menu.options_set();
