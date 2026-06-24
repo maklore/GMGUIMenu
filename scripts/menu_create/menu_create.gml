@@ -52,6 +52,7 @@ function menu_create() constructor {
 			y2 : 0,
 			width : 0,
 			height : 0,
+			scale : 1,
 			func : undefined,
 			option : undefined,
 			option_data : undefined,
@@ -231,10 +232,13 @@ function menu_create() constructor {
 					__menu_data.hover_option = i;
 					
 					_colour = GMGUI_MENU_COLOUR_HOVER;
+					_option_data.scale = clamp(_option_data.scale + GMGUI_MENU_SCALE_HOVER_SPEED, 1, GMGUI_MENU_SCALE_HOVER);
 					
-				} else if _colour != GMGUI_MENU_COLOUR {
+				} else if _colour != GMGUI_MENU_COLOUR or _option_data.scale != 1 {
 					
 					_colour = GMGUI_MENU_COLOUR;
+					_option_data.scale = clamp(_option_data.scale - GMGUI_MENU_SCALE_HOVER_SPEED, 1, GMGUI_MENU_SCALE_HOVER);
+					
 				}
 				
 				if _menu.option == "slider" {
@@ -247,7 +251,7 @@ function menu_create() constructor {
 				}
 				
 				//Draw OPTIONS text
-				draw_text_colour(_option_x, _yy, _option_value, _colour, _colour, _colour, _colour, 1);
+				draw_text_transformed_colour(_option_x, _yy, _option_value, _option_data.scale, _option_data.scale, 1, _colour, _colour, _colour, _colour, 1);
 				
 			}
 			
@@ -260,15 +264,18 @@ function menu_create() constructor {
 				__menu_data.hover = i;
 				
 				_colour = GMGUI_MENU_COLOUR_HOVER;
+				_menu.scale = clamp(_menu.scale + GMGUI_MENU_SCALE_HOVER_SPEED, 1, GMGUI_MENU_SCALE_HOVER);
 				
-			} else if _colour != GMGUI_MENU_COLOUR {
+			} else if _colour != GMGUI_MENU_COLOUR or _menu.scale != 1 {
 				
 				_colour = GMGUI_MENU_COLOUR;
+				_menu.scale = clamp(_menu.scale - GMGUI_MENU_SCALE_HOVER_SPEED, 1, GMGUI_MENU_SCALE_HOVER);
+				
 			}
 			
 			
 			//Draw BUTTON text
-			draw_text_colour(_xx, _yy, _menus, _colour, _colour, _colour, _colour, 1);
+			draw_text_transformed_colour(_xx, _yy, _menus, _menu.scale, _menu.scale, 1, _colour, _colour, _colour, _colour, 1);
 			
 		}
 	}
@@ -407,6 +414,7 @@ function menu_create() constructor {
 			y2 : 0,
 			width : 0,
 			height : 0,
+			scale : 1,
 			hover : -1,
 			index : _index,
 			value : is_array(_value) ? undefined : _value,
