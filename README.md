@@ -27,6 +27,8 @@ menu.options = new menu_create("GRAPHICS", GMGUI_MENU_RETURN);
 			menu.options_cancel();	
 		});
 
+menu.build(font_asset, fa_center, fa_middle);
+
 //Step Event
 menu.on_click(mb_left);
 
