@@ -89,13 +89,20 @@ function menu_system(_menu_name) constructor {
 	}
 	
 	/**
-	 * Sets the current options.
+	 * Returns true if changed, else false.
+	 * @returns {bool}
 	 */
 	static options_set = function() {
 		
+		var _check_equals = struct_compare(__options_data.__option_struct_temp, __options_data.__option_struct)
+		
+		if _check_equals {
+			return false;	
+		}
+		
 		__options_data.__option_struct = variable_clone(__options_data.__option_struct_temp);
 		__options_data.__option_struct_index = variable_clone(__options_data.__option_struct_temp_index)
-		
+		return true;
 	}
 	
 	/**
@@ -105,7 +112,26 @@ function menu_system(_menu_name) constructor {
 		
 		__options_data.__option_struct_temp = variable_clone(__options_data.__option_struct);
 		__options_data.__option_struct_temp_index = variable_clone(__options_data.__option_struct_index);
-		__options_data.__option_key_listen = false;
+		self[$ __current_menu].__option_key_listen = false;
+		self[$ __current_menu].__option_slider_active = false;
+		self[$ __current_menu].__option_slider_x = 0;
+	}
+	
+	/// @ignore
+	static struct_compare = function(_struct1, _struct2){
+	
+	    if (struct_names_count(_struct1) != struct_names_count(_struct2)) return false;
+    
+	    var _names = struct_get_names(_struct1);
+	    for(var _i = 0, _len = array_length(_names); _i < _len; ++_i) {
+	        if (!struct_exists(_struct2, _names[_i])) return false;
+            
+	        if (_struct2[$ _names[_i]] != _struct1[$ _names[_i]]) {
+	            return false;    
+	        }
+	    }
+    
+	    return true;
 	}
 	
 }

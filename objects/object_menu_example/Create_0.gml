@@ -45,7 +45,7 @@ menu.options = new menu_create("GRAPHICS", "SOUND", "KEYBIND", GMGUI_MENU_RETURN
 			menu.options_set();
 		});
 		menu.sound.set_button_function(GMGUI_MENU_RETURN, function() {
-			menu.options_cancel();	
+			menu.options_cancel();
 		});
 
 	menu.keybind = new menu_create("UP", "DOWN", "LEFT", "RIGHT", "INTERACT", "APPLY", GMGUI_MENU_RETURN);

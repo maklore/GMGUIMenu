@@ -236,10 +236,12 @@ function menu_create() constructor {
 				}
 				
 				if _menu.option == "slider" {
+
 					var _value_percent = _option_value / 100;
 					draw_rectangle_colour(_ox1, _oy1, _ox2, _oy2, GMGUI_MENU_SLIDER_BACKGROUND_COLOUR, GMGUI_MENU_SLIDER_BACKGROUND_COLOUR, GMGUI_MENU_SLIDER_BACKGROUND_COLOUR, GMGUI_MENU_SLIDER_BACKGROUND_COLOUR, false);
+					draw_rectangle_colour(_ox1, _oy1, _ox1 + (_ox2 - _ox1) * _value_percent, _oy2, GMGUI_MENU_SLIDER_COLOUR, GMGUI_MENU_SLIDER_COLOUR, GMGUI_MENU_SLIDER_COLOUR, GMGUI_MENU_SLIDER_COLOUR, false);
 					draw_rectangle_colour(_ox1, _oy1, _ox2, _oy2, GMGUI_MENU_SLIDER_FRAME_COLOUR, GMGUI_MENU_SLIDER_FRAME_COLOUR, GMGUI_MENU_SLIDER_FRAME_COLOUR, GMGUI_MENU_SLIDER_FRAME_COLOUR, true);
-					draw_rectangle_colour(_ox1, _oy1, _ox1 + (_ox2 - _ox1) * _value_percent - 1, _oy2, GMGUI_MENU_SLIDER_COLOUR, GMGUI_MENU_SLIDER_COLOUR, GMGUI_MENU_SLIDER_COLOUR, GMGUI_MENU_SLIDER_COLOUR, false);
+					
 				}
 				
 				draw_text_colour(_option_x, _yy, _option_value, _colour, _colour, _colour, _colour, 1);
@@ -352,7 +354,6 @@ function menu_create() constructor {
 		_options.__option_struct_temp[$ __menu_data.slider_option] = round(lerp(_array[1], _array[2], _amount));
 		
 		if mouse_check_button_released(_button) {
-			_options.__option_struct[$ __menu_data.slider_option] = _options.__option_struct_temp[$ __menu_data.slider_option];
 			__option_slider_active = false;
 			__menu_data.slider_option = "";
 			__option_slider_x = 0;
@@ -483,5 +484,4 @@ function menu_create() constructor {
 		}
 		
 	}
-
 }
