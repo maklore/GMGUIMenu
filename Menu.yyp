@@ -32,7 +32,6 @@
     {"id":{"name":"menu_create","path":"scripts/menu_create/menu_create.yy",},},
     {"id":{"name":"menu_keybinds_db","path":"scripts/menu_keybinds_db/menu_keybinds_db.yy",},},
     {"id":{"name":"menu_system","path":"scripts/menu_system/menu_system.yy",},},
-    {"id":{"name":"test","path":"scripts/test/test.yy",},},
     {"id":{"name":"sprite_background","path":"sprites/sprite_background/sprite_background.yy",},},
     {"id":{"name":"sprite_menu_test","path":"sprites/sprite_menu_test/sprite_menu_test.yy",},},
   ],
