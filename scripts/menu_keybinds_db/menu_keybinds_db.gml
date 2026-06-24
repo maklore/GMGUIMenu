@@ -1,3 +1,6 @@
+/** Returns an array where accessing an index using a unicode code returns a string name.
+ * @returns {array}
+ */
 function keybinds_db() {
 	
 	static key_arr = [];

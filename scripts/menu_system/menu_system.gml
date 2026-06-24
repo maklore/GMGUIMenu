@@ -24,28 +24,18 @@ function menu_system(_menu_name) constructor {
 	 * @param {constant.align} _valign Vertical alignment.
 	 */
 	static build = function(_font, _halign, _valign) {
-		
-		var _remove = ["build", "on_click", "draw", "__main_menu", "__current_menu", "__current_menu_stack", 
-					   "options_get", "options_set", "options_cancel"];
-		
-		var _struct_names = struct_get_names(self);
-		
-		for (var i = 0; i < array_length(_remove); ++i) {
-
-			var _get_index = array_get_index(_struct_names, _remove[i]);
-			
-			if _get_index != -1 and _get_index < array_length(_struct_names) {
-				array_delete(_struct_names, _get_index, 1);
-			}
-		}
 				
+		var _struct_names = struct_get_names(self);
+						
 		var _struct_count = array_length(_struct_names);
 
 		if _struct_count < 1 { exit; }
 		
 		for (var i = 0; i < _struct_count; ++i) {
 		    var _name = _struct_names[i];
-			self[$ _name].arrange(_font, _halign, _valign);
+			if struct_exists(self[$ _name], "arrange") {
+				self[$ _name].arrange(_font, _halign, _valign);
+			}
 		}
 		
 	}
