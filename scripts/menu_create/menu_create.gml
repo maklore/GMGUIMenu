@@ -227,12 +227,12 @@ function menu_create() constructor {
 				var _ox2 = _x + _option_data.x2;
 				var _oy2 = _y + _option_data.y2 - GMGUI_MENU_OPTIONS_HEIGHT_OFFSET - GMGUI_MENU_OPTIONS_HEIGHT_SIZE_REDUCTION;
 			
-				if point_in_rectangle(device_mouse_x_to_gui(GMGUI_MENU_MOUSE_INDEX), device_mouse_y_to_gui(GMGUI_MENU_MOUSE_INDEX), _ox1, _oy1, _ox2, _oy2) {
+				if point_in_rectangle(device_mouse_x_to_gui(GMGUI_MENU_MOUSE_INDEX), device_mouse_y_to_gui(GMGUI_MENU_MOUSE_INDEX), _ox1 - 1, _oy1, _ox2, _oy2) {
 					__menu_data.hover_option = i;
 					
 					_colour = GMGUI_MENU_COLOUR_HOVER;
 					_option_data.scale = clamp(_option_data.scale + GMGUI_MENU_SCALE_HOVER_SPEED, 1, GMGUI_MENU_SCALE_HOVER);
-					//draw_rectangle(_ox1, _oy1, _ox2, _oy2, true) //Debug
+					
 					
 				} else if _colour != GMGUI_MENU_COLOUR or _option_data.scale != 1 {
 					
@@ -275,7 +275,7 @@ function menu_create() constructor {
 			
 			
 			//Draw BUTTON text
-			draw_text_transformed_colour(_xx, _yy, _menus, _menu.scale, _menu.scale, 1, _colour, _colour, _colour, _colour, 1);
+			draw_text_transformed_colour(_xx, _yy, _menus, _menu.scale, _menu.scale, 0, _colour, _colour, _colour, _colour, 1);
 			
 		}
 	}
