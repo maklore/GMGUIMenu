@@ -227,7 +227,7 @@ function menu_create() constructor {
 				var _ox2 = _x + _option_data.x2;
 				var _oy2 = _y + _option_data.y2 - GMGUI_MENU_OPTIONS_HEIGHT_OFFSET - GMGUI_MENU_OPTIONS_HEIGHT_SIZE_REDUCTION;
 			
-				if point_in_rectangle(device_mouse_x_to_gui(GMGUI_MENU_MOUSE_INDEX), device_mouse_y_to_gui(GMGUI_MENU_MOUSE_INDEX), _ox1 - 1, _oy1, _ox2, _oy2) {
+				if point_in_rectangle(device_mouse_x_to_gui(GMGUI_MENU_MOUSE_INDEX), device_mouse_y_to_gui(GMGUI_MENU_MOUSE_INDEX), _ox1 - 1, _oy1, _ox2, _oy2) or _option_data.key_listen {
 					__menu_data.hover_option = i;
 					
 					_colour = GMGUI_MENU_COLOUR_HOVER;
@@ -287,7 +287,7 @@ function menu_create() constructor {
 		var _hover_option = __menu_data.hover_option;
 		
 		if __option_key_listen {
-			on_keypress();	
+			on_keypress();
 		}
 		
 		if __option_slider_active {
@@ -329,16 +329,17 @@ function menu_create() constructor {
 	
 	/// @ignore
 	static on_keypress = function() {
-				
+		
+		var _key = __menu_data.keybind_option;
+		
 		if keyboard_lastkey == vk_escape or !window_has_focus() {
 			__option_key_listen = false;
+			__menu_data[$ _key].option_data.key_listen = false;
 			exit;
 		}
 		
 		if keyboard_lastkey != -1 {
-									
-			var _key = __menu_data.keybind_option;
-
+			
 			if _key != "" {
 				
 				var _string = keybinds_db()[keyboard_lastkey];
@@ -347,6 +348,7 @@ function menu_create() constructor {
 					
 				    if __options.__option_struct_temp[$ __menu_array[i]] == _string {
 						__option_key_listen = false;
+						__menu_data[$ _key].option_data.key_listen = false;
 						__menu_data.keybind_option = "";
 						exit;
 					}
@@ -354,7 +356,9 @@ function menu_create() constructor {
 				
 				__options.__option_struct_temp[$ _key] = _string;
 			}
+			
 			__option_key_listen = false;
+			__menu_data[$ _key].option_data.key_listen = false;
 			__menu_data.keybind_option = "";
 		}
 	}
@@ -417,6 +421,7 @@ function menu_create() constructor {
 			scale : 1,
 			hover : -1,
 			index : _index,
+			key_listen : false,
 			value : is_array(_value) ? undefined : _value,
 			value_array : is_array(_value) ? _value : undefined,
 			value_array_index : 0,
@@ -494,6 +499,7 @@ function menu_create() constructor {
 				keyboard_lastkey = -1;
 				
 				__option_key_listen = true;
+				__menu_data[$ _button].option_data.key_listen = true
 				__menu_data.keybind_option = _button;
 			}
 		
