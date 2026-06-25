@@ -23,7 +23,6 @@ function menu_create() constructor {
 		x : 0,
 		y : 0,
 		height : 0,
-		offset_height : 10,
 		font : undefined,
 		halign : undefined,
 		valign : undefined,
@@ -94,7 +93,7 @@ function menu_create() constructor {
 			_button.height = string_height(_menu);
 			
 			_button.x = __menu_data.x - _button.option_width;
-			_button.y = __menu_data.y + __menu_data.offset_height + _button.height * i;
+			_button.y = __menu_data.y + (_button.height + GMGUI_MENU_BUTTON_HEIGHT_SPACE) * i;
 			
 			if _button.option != undefined {
 				_button.option_data.x = __menu_data.x + _button.option_width;
@@ -149,7 +148,7 @@ function menu_create() constructor {
 				
 				if _button.option != undefined {
 					_button.option_data.y1 = _button.y - _button.option_data.height * 0.5;
-					_button.option_data.y2 = _button.y + _button.option_data.height * 0.5;
+					_button.option_data.y2 = _button.option_data.y1 + _button.option_data.height;
 				}
 			} 
 				
@@ -224,15 +223,16 @@ function menu_create() constructor {
 				var _option_x = _x + _option_data.x;
 				
 				var _ox1 = _x + _option_data.x1;
-				var _oy1 = _y + _option_data.y1;
+				var _oy1 = _y + _option_data.y1 - GMGUI_MENU_OPTIONS_HEIGHT_OFFSET + GMGUI_MENU_OPTIONS_HEIGHT_SIZE_REDUCTION;
 				var _ox2 = _x + _option_data.x2;
-				var _oy2 = _y + _option_data.y2;
+				var _oy2 = _y + _option_data.y2 - GMGUI_MENU_OPTIONS_HEIGHT_OFFSET - GMGUI_MENU_OPTIONS_HEIGHT_SIZE_REDUCTION;
 			
 				if point_in_rectangle(device_mouse_x_to_gui(GMGUI_MENU_MOUSE_INDEX), device_mouse_y_to_gui(GMGUI_MENU_MOUSE_INDEX), _ox1, _oy1, _ox2, _oy2) {
 					__menu_data.hover_option = i;
 					
 					_colour = GMGUI_MENU_COLOUR_HOVER;
 					_option_data.scale = clamp(_option_data.scale + GMGUI_MENU_SCALE_HOVER_SPEED, 1, GMGUI_MENU_SCALE_HOVER);
+					//draw_rectangle(_ox1, _oy1, _ox2, _oy2, true) //Debug
 					
 				} else if _colour != GMGUI_MENU_COLOUR or _option_data.scale != 1 {
 					

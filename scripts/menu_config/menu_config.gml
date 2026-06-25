@@ -1,3 +1,12 @@
+//Menu button height spacing
+#macro GMGUI_MENU_BUTTON_HEIGHT_SPACE 10
+
+//Menu options button height offset for hover and slider
+#macro GMGUI_MENU_OPTIONS_HEIGHT_OFFSET 0
+
+//Menu options button top and bottom height reduction for hover and slider
+#macro GMGUI_MENU_OPTIONS_HEIGHT_SIZE_REDUCTION 0
+
 //Return button string name
 #macro GMGUI_MENU_RETURN "BACK"
 
@@ -24,6 +33,8 @@
 
 //Slider colour
 #macro GMGUI_MENU_SLIDER_COLOUR c_gray
+
+
 
 
 
