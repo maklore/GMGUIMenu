@@ -61,8 +61,13 @@ function menu_create() constructor {
 	
 	__menu_length = array_length(__menu_array);
 	
-	/// @ignore
-	static arrange = function(_font, _halign, _valign) {
+	/**
+	 * Set font and build button alignments.
+	 * @param {asset.font} _font Font.
+	 * @param {constant.align} _halign Horizontal alignment.
+	 * @param {constant.align} _valign Vertical alignment.
+	 */
+	static build = function(_font, _halign, _valign) {
 		
 		__menu_data.font = _font;
 		draw_set_font(_font);
@@ -119,10 +124,10 @@ function menu_create() constructor {
 				if _button.option != undefined {
 					
 					_button.x = __menu_data.x;
-					_button.option_data.x = __menu_data.x + _button.option_width * 2;
+					_button.option_data.x = __menu_data.x + _button.option_data.width * 0.5 + _button.option_width * 2;
 					
 					_button.option_data.x1 = _button.option_data.x;
-					_button.option_data.x2 = _button.option_data.x + _button.option_data.width;
+					_button.option_data.x2 = _button.option_data.x1 + _button.option_data.width;
 				}
 			}
 				
@@ -133,11 +138,12 @@ function menu_create() constructor {
 				
 				if _button.option != undefined {
 					
-					_button.x = __menu_data.x - _button.option_width * 2;
+					_button.x = __menu_data.x + _button.option_data.width * 0.5 - _button.option_width * 2;
 					_button.option_data.x = __menu_data.x;
 					
-					_button.option_data.x1 = _button.option_data.x - _button.option_data.width;
 					_button.option_data.x2 = _button.option_data.x;
+					_button.option_data.x1 = _button.option_data.x2 - _button.option_data.width;
+					
 				}
 			}
 			
@@ -176,8 +182,7 @@ function menu_create() constructor {
 	
 			}
 			
-		}		
-	
+		}
 	}
 	
 	/// @ignore	
@@ -400,9 +405,9 @@ function menu_create() constructor {
 	/**
 	 * Set options for button.
 	 * @param {string} _button Button name.
-	 * @param {string} _type Set "bool", "slider", "array", or "key".
-	 * @param {bool | array | string} _value Set value. Use an array for "slider" values: [set_value, low_value, high_value], and Unicode char for "key".
-	 * @param {function} _func Optional. Set function to call. Disabled when using "counter".
+	 * @param {string} _type Set "bool", "slider", "array", "key", or "custom".
+	 * @param {bool | array | string | any} _value Set value. Use an array for "slider" values: [set_value, low_value, high_value], and Unicode char for "key". Using "custom", will set itself to what is returned in _func arg.
+	 * @param {function} _func Optional. Set function to call. Disabled when using "slider".
 	 * @param {real} _index Optional. Set array value index.
 	 */
 	static set_button_option = function(_button, _type, _value, _func = undefined, _index = undefined) {
@@ -501,6 +506,20 @@ function menu_create() constructor {
 				__option_key_listen = true;
 				__menu_data[$ _button].option_data.key_listen = true
 				__menu_data.keybind_option = _button;
+			}
+		
+			
+		}
+		
+		if _type == "custom" {
+			
+			__options.__option_struct[$ _button] = _value;
+			__options.__option_struct_temp[$ _button] = _value;
+			
+			__menu_data[$ _button].option_data.value = _value;
+			
+			__menu_data[$ _button].option_data.func1 = function(_button) {
+				__options.__option_struct_temp[$ _button] = __menu_data[$ _button].option_data.func2();
 			}
 		
 			

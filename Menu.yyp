@@ -25,9 +25,10 @@
   "name":"Menu",
   "resources":[
     {"id":{"name":"font_asset_example","path":"fonts/font_asset_example/font_asset_example.yy",},},
+    {"id":{"name":"object_example_2","path":"objects/object_example_2/object_example_2.yy",},},
     {"id":{"name":"object_menu_example","path":"objects/object_menu_example/object_menu_example.yy",},},
-    {"id":{"name":"room_example_2","path":"rooms/room_example_2/room_example_2.yy",},},
     {"id":{"name":"room_example","path":"rooms/room_example/room_example.yy",},},
+    {"id":{"name":"room_example_2","path":"rooms/room_example_2/room_example_2.yy",},},
     {"id":{"name":"menu_config","path":"scripts/menu_config/menu_config.yy",},},
     {"id":{"name":"menu_create","path":"scripts/menu_create/menu_create.yy",},},
     {"id":{"name":"menu_keybinds_db","path":"scripts/menu_keybinds_db/menu_keybinds_db.yy",},},

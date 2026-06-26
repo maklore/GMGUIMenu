@@ -33,8 +33,8 @@ function menu_system(_menu_name) constructor {
 		
 		for (var i = 0; i < _struct_count; ++i) {
 		    var _name = _struct_names[i];
-			if struct_exists(self[$ _name], "arrange") {
-				self[$ _name].arrange(_font, _halign, _valign);
+			if struct_exists(self[$ _name], "build") {
+				self[$ _name].build(_font, _halign, _valign);
 			}
 		}
 		

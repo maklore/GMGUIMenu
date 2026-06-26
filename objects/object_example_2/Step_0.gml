@@ -1,0 +1,1 @@
+menu.on_click(mb_left);

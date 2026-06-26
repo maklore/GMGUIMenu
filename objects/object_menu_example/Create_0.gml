@@ -70,5 +70,8 @@ menu.options = new menu_create("GRAPHICS", "SOUND", "KEYBIND", GMGUI_MENU_RETURN
 			menu.options_cancel();	
 		});
 
-menu.build(font_asset_example, fa_center, fa_middle);
+menu.build(font_asset_example, fa_left, fa_middle);
+menu.graphics.build(font_asset_example, fa_center, fa_middle);
+menu.sound.build(font_asset_example, fa_center, fa_middle);
+menu.keybind.build(font_asset_example, fa_center, fa_middle);
 
