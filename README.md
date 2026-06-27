@@ -1,5 +1,7 @@
 A small barebones GUI menu system with a lot of possibilites.
 
+See the [wiki](https://github.com/maklore/GMGUIMenu/wiki) for how to start using it!
+
 <img width="350" height="175" alt="Screenshot_20260623_230428" src="https://github.com/user-attachments/assets/c7c5871d-831f-4f33-b0fc-a50eeeea6a5a" />
 
 Example code:
